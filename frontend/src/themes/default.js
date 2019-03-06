@@ -1,14 +1,15 @@
 const colors = {
   // Identidade visual
-  orange: '#f7902a',
-  darkOrange: '#f9564b',
+  orange: '#eb5d36',
   white: '#fff',
 
   // Escalas de preto
-  dark: '#4c4c4c',
+  dark: '#262936',
   darkGray: '#797979',
-  gray: '#c8c8c8',
-  lightGray: '#e6e6e6',
+  gray: '#ebedf0',
+  lightGray: '#fafbfc',
+  borderGray: '#e8eaed',
+  iconGray: '#8f9298',
 
   // Cores de apoio
   green: '#2dac3a',
