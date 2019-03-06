@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import { reducer as example } from './example';
+import { reducer as categories } from './categories';
 
-const rootReducer = combineReducers({ example });
+const rootReducer = combineReducers({ categories });
 
 export default rootReducer;

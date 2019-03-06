@@ -1,13 +1,10 @@
 import { createGlobalStyle } from 'styled-components';
 import { normalize } from 'polished';
+import 'boxicons';
 
 // create a global styles
 export const GlobalStyle = createGlobalStyle`
   ${normalize()}
-  
-  @-ms-viewport {
-    width: device-width;
-  }
 
   html {
     box-sizing: border-box;
@@ -39,9 +36,5 @@ export const GlobalStyle = createGlobalStyle`
     color: ${({ theme }) => theme.colors.textColor};
     font-family: ${({ theme }) => theme.font.primary};
     font-size: ${({ theme }) => theme.font.defaultSize};
-
-    &.vg-no-scroll {
-      overflow-y: hidden;
-    }
   }
 `;

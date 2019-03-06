@@ -1,13 +1,13 @@
 const colors = {
   // Identidade visual
-  orange: '#eb5d36',
+  orange: '#FE4402',
   white: '#fff',
 
   // Escalas de preto
   dark: '#262936',
   darkGray: '#797979',
   gray: '#ebedf0',
-  lightGray: '#fafbfc',
+  lightGray: '#F7F7F7',
   borderGray: '#e8eaed',
   iconGray: '#8f9298',
 
@@ -87,7 +87,7 @@ export const defaultTheme = {
   },
 
   scafolding: {
-    headerHeight: '70px',
+    asideWidth: '300px',
   },
 
   breakpoints,
