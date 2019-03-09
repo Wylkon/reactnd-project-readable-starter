@@ -6,7 +6,7 @@ const LogoStyled = styled(Link)`
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderGray};
   color: ${({ theme }) => theme.colors.dark};
   margin-bottom: 45px;
-  padding: 0 24px 45px;
+  padding: 0 24px 24px;
   text-decoration: none;
 
   h1 {

@@ -6,5 +6,9 @@ export const Container = styled.main`
 
 export const Section = styled.section`
   width: 100%;
-  padding: 56px 24px;
+  padding: 24px;
+`;
+
+export const Wrapper = styled.div`
+  width: 100%;
 `;

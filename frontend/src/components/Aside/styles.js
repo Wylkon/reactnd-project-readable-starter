@@ -9,7 +9,7 @@ export const AsideStyled = styled.aside`
   height: 100%;
   min-width: ${({ theme }) => theme.scafolding.asideWidth};
   overflow: hidden;
-  padding: 45px 0;
+  padding: 25px 0 45px;
   position: fixed;
   left: 0;
   top: 0;
