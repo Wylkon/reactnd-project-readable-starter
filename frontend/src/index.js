@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { defaultTheme, GlobalStyle } from './themes';
 import { ThemeProvider } from 'styled-components';
 
-import { Aside, Container, Wrapper, TopBarUser } from 'components';
+import { Aside, Container, Wrapper, TopBarUser, ModalForm } from 'components';
 
 import { Routes } from './utils/routes';
 import store from './store/storeSetup';
@@ -22,6 +22,7 @@ const App = () => (
               <Wrapper>
                 <TopBarUser />
                 <Routes />
+                <ModalForm />
               </Wrapper>
             </Container>
           </React.Fragment>

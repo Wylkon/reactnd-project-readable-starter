@@ -1,8 +1,9 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { array } from 'prop-types';
 import { Total } from 'components';
 import { Link } from 'react-router-dom';
+import { resetButton } from 'themes';
 
 const PostList = styled.div`
   background: ${({ theme }) => theme.colors.white};
@@ -31,19 +32,30 @@ const Counter = styled.div`
   width: 100px;
 `;
 
+const CounterButton = styled.button`
+  ${resetButton};
+
+  ${({ active, theme }) =>
+    active &&
+    css`
+      fill: ${theme.colors.orange};
+      opacity: 0.2;
+    `}
+`;
+
 export const Posts = ({ posts }) => {
   return (
     <PostList>
       {posts.map(post => (
-        <PostStyled key={post.id} to={`/post/${post.id}`}>
+        <PostStyled key={post.id} to={`/${post.category}/${post.id}`}>
           <Counter>
-            <button onClick={e => e.preventDefault()}>
+            <CounterButton onClick={e => e.preventDefault()}>
               <box-icon name="upvote" />
-            </button>
+            </CounterButton>
             <Total value={post.voteScore} />
-            <button onClick={e => e.preventDefault()}>
+            <CounterButton onClick={e => e.preventDefault()}>
               <box-icon name="downvote" />
-            </button>
+            </CounterButton>
           </Counter>
           <div>
             <h3>{post.title}</h3>
