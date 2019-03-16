@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { object, func, bool } from 'prop-types';
 
@@ -35,9 +35,9 @@ class Aside extends Component {
           <AsideList>
             {categories.categoriesList.map(category => (
               <li key={category.name}>
-                <Link to={`/${category.path}`}>
+                <NavLink to={`/${category.path}`} onClick={toggleMenu} activeClassName="active" exact>
                   <box-icon name="chevron-right" /> {upFirstLetter(category.name)}
-                </Link>
+                </NavLink>
               </li>
             ))}
           </AsideList>
@@ -51,10 +51,12 @@ class Aside extends Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { getCategories, toggleMenu }
-)(Aside);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { getCategories, toggleMenu }
+  )(Aside)
+);
 
 Aside.propTypes = {
   categories: object.isRequired,

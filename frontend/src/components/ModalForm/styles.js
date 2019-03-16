@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { device, resetButton } from 'themes';
+import { resetButton } from 'themes';
 
 export const Modal = styled.div`
   width: 100%;

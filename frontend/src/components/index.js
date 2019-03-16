@@ -1,11 +1,14 @@
 // Components
 export { default as Aside } from './Aside';
 export { default as TopBarUser } from './TopBarUser';
-export * from './Posts';
-export * from './Logo';
-export * from './RoundedBox';
-export * from './Containers';
-export * from './TopBarPosts';
-export * from './Total';
+
 export * from './Button';
+export * from './Containers';
+export * from './Comments';
+export * from './Logo';
 export * from './ModalForm';
+export * from './Post';
+export * from './Posts';
+export * from './RoundedBox';
+export * from './TopBarPosts';
+export * from './Vote';

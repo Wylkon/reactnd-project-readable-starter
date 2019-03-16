@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { Modal, ModalOverlay, Header, Body, CloseButton } from './styles';
 import { Button } from 'components';
+import { bool } from 'prop-types';
 
 export const ModalForm = ({ open }) => {
   return open ? (
@@ -36,4 +37,8 @@ export const ModalForm = ({ open }) => {
       <ModalOverlay />
     </Fragment>
   ) : null;
+};
+
+ModalForm.propTypes = {
+  open: bool,
 };

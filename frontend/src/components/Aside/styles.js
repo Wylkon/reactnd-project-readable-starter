@@ -68,7 +68,8 @@ export const AsideList = styled.ul`
     transition: border 0.5s ${({ theme }) => theme.easing.ease}, background 0.2s ${({ theme }) => theme.easing.ease};
 
     &:hover,
-    &:focus {
+    &:focus,
+    &.active {
       background: ${({ theme }) => theme.colors.lightGray};
       border-left-color: ${({ theme }) => theme.colors.orange};
     }
