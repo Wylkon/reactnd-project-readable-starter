@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { string, number, node } from 'prop-types';
+import { string, number, node, func } from 'prop-types';
+import { connect } from 'react-redux';
+import { vote } from 'store/modules/posts';
 
 import { Vote } from 'components';
 
@@ -62,10 +64,10 @@ const ContentPost = styled.div`
   }
 `;
 
-export const Post = ({ voteScore, children }) => {
+export const Post = ({ voteScore, children, id, vote }) => {
   return (
     <PostStyled>
-      <Vote voteScore={voteScore} />
+      <Vote voteScore={voteScore} vote={vote} id={id} />
       <ContentPost>{children}</ContentPost>
     </PostStyled>
   );
@@ -76,4 +78,10 @@ Post.propTypes = {
   id: string.isRequired,
   voteScore: number.isRequired,
   children: node.isRequired,
+  vote: func.isRequired,
 };
+
+export default connect(
+  null,
+  { vote }
+)(Post);

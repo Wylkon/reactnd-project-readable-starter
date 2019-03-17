@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter, Link, Redirect } from 'react-router-dom';
 import { object, func, bool, array } from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { formatDate } from 'utils/formatDate';
 import { Post, Comments, Section, Button } from 'components';
 import { getPost, getComments } from 'store/modules/post';
+import { removePost } from 'store/modules/posts';
 
 const PostStyled = styled.div`
   background: ${({ theme }) => theme.colors.white};
@@ -79,10 +80,18 @@ class PostPage extends Component {
     history.goBack();
   };
 
+  removeHandler = () => {
+    const { data, removePost, history } = this.props;
+
+    removePost(data.id).then(() => {
+      history.push('/');
+    });
+  };
+
   render() {
     const { loaded, data, comments } = this.props;
 
-    return loaded ? (
+    return loaded && Object.keys(data).length ? (
       <Section>
         <LinkStyled to="#" onClick={this.handleClick}>
           <box-icon name="chevron-left" /> Back to posts
@@ -104,7 +113,7 @@ class PostPage extends Component {
                 <Button aux>
                   <box-icon type="solid" name="edit" size="16px" /> Editar
                 </Button>
-                <Button aux>
+                <Button aux onClick={this.removeHandler}>
                   <box-icon type="solid" name="trash" size="16px" /> Remover
                 </Button>
               </WrapButton>
@@ -113,6 +122,8 @@ class PostPage extends Component {
           </Post>
         </PostStyled>
       </Section>
+    ) : loaded && !Object.keys(data).length ? (
+      <Redirect to="/404/" />
     ) : (
       <Section>
         <p>
@@ -134,7 +145,7 @@ const mapStateToProps = ({ post }) => {
 export default withRouter(
   connect(
     mapStateToProps,
-    { getPost, getComments }
+    { getPost, getComments, removePost }
   )(PostPage)
 );
 
@@ -142,6 +153,7 @@ PostPage.propTypes = {
   match: object.isRequired,
   getPost: func.isRequired,
   getComments: func.isRequired,
+  removePost: func.isRequired,
   loaded: bool.isRequired,
   data: object.isRequired,
   comments: array.isRequired,
