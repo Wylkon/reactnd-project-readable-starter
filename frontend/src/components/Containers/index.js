@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { node } from 'prop-types';
 
 export const ContainerStyled = styled.main`
   display: flex;
@@ -16,6 +17,11 @@ export const Wrapper = styled.div`
 
 export default class Container extends Component {
   render() {
-    return <ContainerStyled>{this.props.children}</ContainerStyled>;
+    const { children } = this.props;
+    return <ContainerStyled>{children}</ContainerStyled>;
   }
 }
+
+Container.propTypes = {
+  children: node.isRequired,
+};
