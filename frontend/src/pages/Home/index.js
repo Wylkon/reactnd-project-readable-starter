@@ -1,39 +1,97 @@
 import React, { Component } from 'react';
-import { TopBarPosts, Posts, Section } from 'components';
 import { connect } from 'react-redux';
+import { func, array, bool, object } from 'prop-types';
+import { withRouter } from 'react-router-dom';
+
+import { TopBarPosts, Posts, Section, ModalForm } from 'components';
 import { getPosts } from 'store/modules/posts';
-import { func, array, bool } from 'prop-types';
+import { toggleModalPost } from 'store/modules/ui';
+import { sortPosts } from 'utils/sortBy';
 
 class Home extends Component {
+  state = {
+    sortBy: 'best',
+  };
+
   componentDidMount = () => {
-    const { getPosts } = this.props;
-    getPosts();
+    this.checkCategory();
+  };
+
+  componentDidUpdate = prevProps => {
+    const {
+      match: { params },
+    } = this.props;
+
+    if (prevProps.match.params !== params) {
+      this.checkCategory();
+    }
+  };
+
+  handleSortBy = sortBy => {
+    this.setState({
+      sortBy,
+    });
+  };
+
+  checkCategory = () => {
+    const {
+      getPosts,
+      match: { params },
+      categories,
+      history,
+    } = this.props;
+
+    if (Object.keys(params).length) {
+      if (categories.filter(category => category.name === params.category).length) {
+        getPosts(params.category);
+      } else {
+        history.push('/404');
+      }
+    } else {
+      getPosts();
+    }
   };
 
   render() {
-    const { posts, loaded } = this.props;
+    const {
+      posts,
+      loaded,
+      match: { params },
+      toggleModalPost,
+    } = this.props;
+
+    const { sortBy } = this.state;
 
     return (
       <Section>
-        <TopBarPosts />
-        {!!loaded && <Posts posts={posts} />}
+        <TopBarPosts handleSortBy={this.handleSortBy} toggleModalPost={toggleModalPost} />
+        {!!loaded && <Posts posts={sortPosts(params.category ? posts[params.category] : posts.all, sortBy)} />}
+        <ModalForm />
       </Section>
     );
   }
 }
 
-const mapStateToProps = ({ posts }) => ({
-  posts: posts.data,
+const mapStateToProps = ({ posts, categories }) => ({
+  posts: posts.posts,
   loaded: posts.loaded,
+  categories: categories.categoriesList,
+  categoriesLoaded: categories.loaded,
 });
 
-export default connect(
-  mapStateToProps,
-  { getPosts }
-)(Home);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { getPosts, toggleModalPost }
+  )(Home)
+);
 
 Home.propTypes = {
   getPosts: func.isRequired,
-  posts: array.isRequired,
+  toggleModalPost: func.isRequired,
+  posts: object.isRequired,
   loaded: bool.isRequired,
+  match: object.isRequired,
+  history: object.isRequired,
+  categories: array.isRequired,
 };

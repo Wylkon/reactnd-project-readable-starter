@@ -114,7 +114,11 @@ class PostPage extends Component {
         </PostStyled>
       </Section>
     ) : (
-      <p>Loading...</p>
+      <Section>
+        <p>
+          <box-icon name="loader-circle" animation="spin" /> Loading...
+        </p>
+      </Section>
     );
   }
 }

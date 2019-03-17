@@ -7,7 +7,6 @@ import { AsideStyled, AsideTitle, AsideFooter, AsideList, CloseButton, AsideOver
 import { Logo } from 'components';
 
 import { upFirstLetter } from 'utils/upFirstLetter';
-import { getCategories } from 'store/modules/categories';
 import { toggleMenu } from 'store/modules/ui';
 
 const mapStateToProps = ({ categories, ui: { menu } }) => ({
@@ -16,12 +15,6 @@ const mapStateToProps = ({ categories, ui: { menu } }) => ({
 });
 
 class Aside extends Component {
-  componentDidMount = () => {
-    const { getCategories } = this.props;
-
-    getCategories();
-  };
-
   render() {
     const { categories, menu, toggleMenu } = this.props;
     return (
@@ -54,13 +47,12 @@ class Aside extends Component {
 export default withRouter(
   connect(
     mapStateToProps,
-    { getCategories, toggleMenu }
+    { toggleMenu }
   )(Aside)
 );
 
 Aside.propTypes = {
   categories: object.isRequired,
   menu: bool.isRequired,
-  getCategories: func.isRequired,
   toggleMenu: func.isRequired,
 };

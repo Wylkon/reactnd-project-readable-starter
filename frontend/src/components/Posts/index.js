@@ -11,7 +11,7 @@ const PostList = styled.div`
 `;
 
 export const Posts = ({ posts }) => {
-  return (
+  return posts && posts.length ? (
     <PostList>
       {posts.map(post => (
         <Post {...post} key={post.id}>
@@ -28,9 +28,15 @@ export const Posts = ({ posts }) => {
         </Post>
       ))}
     </PostList>
+  ) : (
+    <p>This category does not have posts</p>
   );
 };
 
+Posts.defaultProps = {
+  posts: [],
+};
+
 Posts.propTypes = {
-  posts: array.isRequired,
+  posts: array,
 };

@@ -33,7 +33,7 @@ const LogoStyled = styled(Link)`
 
 export const Logo = () => {
   return (
-    <LogoStyled to="home">
+    <LogoStyled to="/">
       <h1>
         <box-icon type="solid" name="bookmark-star" />
         <span>Read-it</span>

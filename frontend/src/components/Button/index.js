@@ -3,10 +3,12 @@ import { resetButton } from 'themes';
 
 export const Button = styled.button`
   ${resetButton};
-  border-radius: 8px;
-  font-size: 1.2em;
-  display: inline-flex;
   align-items: center;
+  border-radius: 8px;
+  display: inline-flex;
+  font-size: 1.2em;
+  text-decoration: none;
+  justify-content: center;
 
   box-icon {
     margin-right: 4px;
