@@ -5,9 +5,10 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import { formatDate } from 'utils/formatDate';
-import { Post, Comments, Section, Button } from 'components';
+import { Post, Comments, Section, Button, ModalForm } from 'components';
 import { getPost, getComments } from 'store/modules/post';
 import { removePost } from 'store/modules/posts';
+import { toggleModalPost } from 'store/modules/ui';
 
 const PostStyled = styled.div`
   background: ${({ theme }) => theme.colors.white};
@@ -89,7 +90,7 @@ class PostPage extends Component {
   };
 
   render() {
-    const { loaded, data, comments } = this.props;
+    const { loaded, data, comments, toggleModalPost } = this.props;
 
     return loaded && Object.keys(data).length ? (
       <Section>
@@ -97,7 +98,7 @@ class PostPage extends Component {
           <box-icon name="chevron-left" /> Back to posts
         </LinkStyled>
         <PostStyled>
-          <Post {...data}>
+          <Post {...data} type="inside">
             <PostContent>
               <header>
                 <div>
@@ -110,17 +111,18 @@ class PostPage extends Component {
               </header>
               <p>{data.body}</p>
               <WrapButton>
-                <Button aux>
+                <Button aux onClick={toggleModalPost}>
                   <box-icon type="solid" name="edit" size="16px" /> Editar
                 </Button>
                 <Button aux onClick={this.removeHandler}>
                   <box-icon type="solid" name="trash" size="16px" /> Remover
                 </Button>
               </WrapButton>
-              <Comments comments={comments} />
+              <Comments comments={comments} parentId={data.id} />
             </PostContent>
           </Post>
         </PostStyled>
+        <ModalForm initialValues={{ ...data }} />
       </Section>
     ) : loaded && !Object.keys(data).length ? (
       <Redirect to="/404/" />
@@ -145,7 +147,7 @@ const mapStateToProps = ({ post }) => {
 export default withRouter(
   connect(
     mapStateToProps,
-    { getPost, getComments, removePost }
+    { getPost, getComments, removePost, toggleModalPost }
   )(PostPage)
 );
 
@@ -153,6 +155,7 @@ PostPage.propTypes = {
   match: object.isRequired,
   getPost: func.isRequired,
   getComments: func.isRequired,
+  toggleModalPost: func.isRequired,
   removePost: func.isRequired,
   loaded: bool.isRequired,
   data: object.isRequired,

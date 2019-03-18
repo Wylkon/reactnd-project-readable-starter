@@ -10,6 +10,13 @@ export const Button = styled.button`
   text-decoration: none;
   justify-content: center;
 
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      opacity: 0.4;
+      cursor: not-allowed;
+    `}
+
   box-icon {
     margin-right: 4px;
   }

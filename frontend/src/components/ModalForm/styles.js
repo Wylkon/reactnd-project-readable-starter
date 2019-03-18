@@ -58,30 +58,6 @@ export const Body = styled.div`
     flex-direction: column;
 
     label {
-      width: 100%;
-
-      + label,
-      + button {
-        margin-top: 16px;
-      }
-
-      span {
-        display: block;
-        font-size: 1.4em;
-        margin-bottom: 8px;
-      }
-
-      input,
-      textarea,
-      select {
-        border-radius: 2px;
-        border: 1px solid ${({ theme }) => theme.colors.darkGray};
-        font-size: 1.4em;
-        padding: 8px 8px;
-        resize: none;
-        width: 100%;
-      }
-
       textarea {
         height: 100px;
       }

@@ -79,7 +79,10 @@ export const reducer = (state = initialState, { type, result, category, id, vote
     case TYPES.VOTE_ERROR:
       return {
         ...state,
-        [category]: votedPost(state.posts[category], vote === 'upVote' ? 'downVote' : 'upVote', id),
+        posts: {
+          ...state.posts,
+          [category]: votedPost(state.posts[category], vote === 'upVote' ? 'downVote' : 'upVote', id),
+        },
       };
     case TYPES.REMOVE:
       return {
@@ -130,10 +133,10 @@ export const submitPost = (values, currentCategory = 'all') => {
   };
 };
 
-export const vote = (id, vote, currentCategory = 'all') => ({
+export const vote = ({ id, vote, category = 'all' }) => ({
   types: [TYPES.VOTE, TYPES.VOTE_SUCCESS, TYPES.VOTE_ERROR],
   promise: client => client.post(`/posts/${id}`, { option: vote }),
-  category: currentCategory,
+  category: category,
   vote,
   id,
 });

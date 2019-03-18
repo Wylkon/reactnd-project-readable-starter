@@ -1,9 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { string, number, node, func } from 'prop-types';
+import { string, number, node, func, object, oneOf } from 'prop-types';
 import { connect } from 'react-redux';
-import { vote } from 'store/modules/posts';
+import { withRouter } from 'react-router-dom';
 
+import { vote } from 'store/modules/posts';
+import { votePost } from 'store/modules/post';
 import { Vote } from 'components';
 
 const PostStyled = styled.div`
@@ -64,10 +66,10 @@ const ContentPost = styled.div`
   }
 `;
 
-export const Post = ({ voteScore, children, id, vote }) => {
+export const Post = ({ voteScore, children, id, vote, match: { params }, type = 'list', votePost }) => {
   return (
     <PostStyled>
-      <Vote voteScore={voteScore} vote={vote} id={id} />
+      <Vote voteScore={voteScore} submit={type === 'list' ? vote : votePost} id={id} category={params.category} />
       <ContentPost>{children}</ContentPost>
     </PostStyled>
   );
@@ -79,9 +81,14 @@ Post.propTypes = {
   voteScore: number.isRequired,
   children: node.isRequired,
   vote: func.isRequired,
+  votePost: func.isRequired,
+  match: object.isRequired,
+  type: oneOf(['list', 'inside']),
 };
 
-export default connect(
-  null,
-  { vote }
-)(Post);
+export default withRouter(
+  connect(
+    null,
+    { vote, votePost }
+  )(Post)
+);

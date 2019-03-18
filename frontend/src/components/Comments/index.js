@@ -1,38 +1,38 @@
-import React from 'react';
-import { array } from 'prop-types';
+import React, { Fragment } from 'react';
+import { array, func, string } from 'prop-types';
 import styled from 'styled-components';
+import { Form, Field } from 'react-final-form';
+import { connect } from 'react-redux';
 
 import { formatDate } from 'utils/formatDate';
-import { RoundedBox, Button, Vote } from 'components';
+import { RoundedBox, Button, Vote, Label, ModalComment } from 'components';
 import { resetList } from 'themes';
+import { submitComment, removeComment, vote } from 'store/modules/post';
+import { toggleModalComment } from 'store/modules/ui';
 
 const CommentStyled = styled.div`
   padding-top: 32px;
   margin-top: 32px;
   border-top: 1px solid ${({ theme }) => theme.colors.borderGray};
-`;
 
-const FormStyled = styled.form`
-  display: flex;
-  flex-direction: column;
+  form {
+    display: flex;
+    flex-direction: column;
 
-  textarea {
-    margin: 4px 0 16px;
-    min-height: 100px;
-    resize: none;
-    width: 100%;
-    border: 1px solid ${({ theme }) => theme.colors.borderGray};
-  }
+    textarea {
+      min-height: 100px;
+    }
 
-  button {
-    align-self: flex-end;
+    button {
+      align-self: flex-end;
+    }
   }
 `;
 
 const CommentList = styled.div`
-  border-top: 1px solid ${({ theme }) => theme.colors.borderGray};
-  padding-top: 32px;
-  margin-top: 32px;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.borderGray};
+  padding-bottom: 32px;
+  margin-bottom: 32px;
 
   ul {
     ${resetList}
@@ -51,45 +51,76 @@ const CommentDetails = styled.div`
   padding: 16px;
 `;
 
-export const Comments = ({ comments }) => {
+const Comments = ({ comments, submitComment, parentId, removeComment, vote, toggleModalComment }) => {
   return (
-    <CommentStyled>
-      <h3>Comments</h3>
-      <FormStyled>
-        <label>
-          <span>Add a comment bellow:</span>
-          <textarea placeholder="Type your comment here" />
-        </label>
-        <Button>Send</Button>
-      </FormStyled>
-      {!!comments.length && (
-        <CommentList>
-          <h3>Comment List</h3>
-          <ul>
-            {comments.map(comment => (
-              <RoundedBox key={comment.id} as="li">
-                <Vote voteScore={0} />
-                <CommentDetails>
-                  <p>{comment.body}</p>
-                  {`u/${comment.author}`} - {formatDate(comment.timestamp)}
-                  <WrapButton>
-                    <Button aux>
-                      <box-icon type="solid" name="edit" size="16px" /> Editar
-                    </Button>
-                    <Button aux>
-                      <box-icon type="solid" name="trash" size="16px" /> Remover
-                    </Button>
-                  </WrapButton>
-                </CommentDetails>
-              </RoundedBox>
-            ))}
-          </ul>
-        </CommentList>
-      )}
-    </CommentStyled>
+    <Fragment>
+      <CommentStyled>
+        {!!comments.length && (
+          <CommentList>
+            <ul>
+              {comments.map(comment => (
+                <RoundedBox key={comment.id} as="li">
+                  <Vote voteScore={comment.voteScore} submit={vote} parentId={parentId} id={comment.id} />
+                  <CommentDetails>
+                    <p>{comment.body}</p>
+                    {`u/${comment.author}`} - {formatDate(comment.timestamp)}
+                    <WrapButton>
+                      <Button aux onClick={() => toggleModalComment(comment)}>
+                        <box-icon type="solid" name="edit" size="16px" /> Editar
+                      </Button>
+                      <Button aux onClick={() => removeComment(comment.id)}>
+                        <box-icon type="solid" name="trash" size="16px" /> Remover
+                      </Button>
+                    </WrapButton>
+                  </CommentDetails>
+                </RoundedBox>
+              ))}
+            </ul>
+          </CommentList>
+        )}
+        <h3>Submit a comment</h3>
+        <Form
+          onSubmit={values => submitComment(values, parentId)}
+          initialValues={{}}
+          render={({ handleSubmit, submitting, pristine, form }) => (
+            <form
+              onSubmit={event =>
+                handleSubmit(event).then(() => {
+                  form.reset();
+                })
+              }
+            >
+              <Label>
+                <span>Author</span>
+                <Field name="author" component="input" type="text" placeholder="your name" required />
+              </Label>
+
+              <Label>
+                <span>Add a comment bellow:</span>
+                <Field name="body" component="textarea" placeholder="Type your comment here" required />
+              </Label>
+              <Button type="submit" disabled={submitting || pristine}>
+                Send
+              </Button>
+            </form>
+          )}
+        />
+      </CommentStyled>
+      <ModalComment />
+    </Fragment>
   );
 };
 
+export default connect(
+  null,
+  { submitComment, removeComment, vote, toggleModalComment }
+)(Comments);
+
 Comments.propTypes = {
   comments: array.isRequired,
+  submitComment: func.isRequired,
+  toggleModalComment: func.isRequired,
+  removeComment: func.isRequired,
+  vote: func.isRequired,
+  parentId: string.isRequired,
 };
