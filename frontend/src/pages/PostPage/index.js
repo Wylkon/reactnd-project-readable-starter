@@ -105,7 +105,8 @@ class PostPage extends Component {
                   <h1>{data.title}</h1>
                   <small>
                     <strong>Posted by:</strong> {`u/${data.author}`} - <strong>Category:</strong> {`r/${data.category}`}{' '}
-                    - <strong>Date:</strong> {formatDate(data.timestamp)}
+                    - <strong>Date:</strong> {formatDate(data.timestamp)} - <strong>Comments:</strong>{' '}
+                    {data.commentCount}
                   </small>
                 </div>
               </header>
