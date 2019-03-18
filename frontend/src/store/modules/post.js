@@ -77,6 +77,10 @@ export const reducer = (state = initialState, { type, result, id, voteValue }) =
       return {
         ...state,
         comments: state.comments.concat(result.data),
+        data: {
+          ...state.data,
+          commentCount: state.data.commentCount + 1,
+        },
       };
     case TYPES.SUBMIT_COMMENTS_ERROR:
       return {
@@ -90,6 +94,10 @@ export const reducer = (state = initialState, { type, result, id, voteValue }) =
       return {
         ...state,
         comments: state.comments.filter(comment => comment.id !== id),
+        data: {
+          ...state.data,
+          commentCount: state.data.commentCount - 1,
+        },
       };
     case TYPES.REMOVE_COMMENTS_ERROR:
       return {
